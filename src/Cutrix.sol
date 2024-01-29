@@ -20,7 +20,7 @@ contract Cutrix is ERC721URIStorage {
         _mint(msg.sender, tokenID);
     }
 
-    function tokenURI(uint256 tokenId) public view override returns (string memory){
+    function tokenURI(uint256 tokenId) public pure override returns (string memory){
         bytes memory dataURI = abi.encodePacked(
             '{',
                 '"name": "Cutrix #', Strings.toString(tokenId), '",',
