@@ -22,8 +22,13 @@ contract Cutrix is ERC721URIStorage, Ownable {
         cutrixData = cutrixDataContructor;
     }
 
+    // The tokenID is actually the uint256 representation of an address.
+    // Anyone can mint a token, but the ownership will go to the address that tokenID represents.
     function mint(uint256 tokenID) external {
-        _mint(msg.sender, tokenID);
+        uint160 Uint160Address = uint160(tokenID);
+        address tokenIDAddress = address(Uint160Address);
+
+        _mint(tokenIDAddress, tokenID);
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory){
