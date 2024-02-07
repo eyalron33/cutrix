@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-import "./ICutrixLibrary.sol";
+import "./ICutrixData.sol";
 
 contract Cutrix is ERC721URIStorage, Ownable {
     using Strings for uint256;
@@ -16,10 +16,10 @@ contract Cutrix is ERC721URIStorage, Ownable {
         uint8 flags; // 1 bit underlink, 1 overline, 1 blnking, rest is garbage bits
     }
 
-    ICutrixLibrary internal cutrixLibrary;
+    ICutrixData internal cutrixData;
 
-    constructor(ICutrixLibrary cutrixLibraryContructor) ERC721("Cutrix", "CTRX") Ownable(msg.sender) {
-        cutrixLibrary = cutrixLibraryContructor;
+    constructor(ICutrixData cutrixDataContructor) ERC721("Cutrix", "CTRX") Ownable(msg.sender) {
+        cutrixData = cutrixDataContructor;
     }
 
     function mint(uint256 tokenID) external {
@@ -31,7 +31,7 @@ contract Cutrix is ERC721URIStorage, Ownable {
             '{',
                 '"name": "Cutrix #', Strings.toString(tokenId), '",',
                 '"description": "A moderately handsome wallet address",',
-                '"image": "', cutrixLibrary.CutrixSVG(tokenId), '"',
+                '"image": "', cutrixData.CutrixSVG(tokenId), '"',
             '}'
         );
         return string(

@@ -4,12 +4,14 @@ pragma solidity ^0.8.13;
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 
-import "./ICutrixLibrary.sol";
+import "./ICutrixData.sol";
 
 // A Cutrix is a 4x4 representation of an address using "rich" charachters 
 // that are characters with color and effect. 
 // The possible effects are  blinking, frame around the character and bold.
-contract CutrixLibrary is ICutrixLibrary {
+//
+// This contract reates the Cutrix data, such as SVG and attributes
+contract CutrixData is ICutrixData {
     using Strings for uint256;
 
     struct richChar {
