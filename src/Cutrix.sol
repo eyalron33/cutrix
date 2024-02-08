@@ -8,6 +8,9 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 
 import "./ICutrixData.sol";
 
+// Cutrix: 4x4 representation of an Ethereum address using "rich" charachters. 
+// Rich characters are hex characters with additional color and effects. 
+// The possible effects are  blinking, frame around the character and boldness.
 contract Cutrix is ERC721URIStorage, Ownable {
     using Strings for uint256;
 

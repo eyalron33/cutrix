@@ -6,11 +6,11 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 
 import "./ICutrixData.sol";
 
-// A Cutrix is a 4x4 representation of an address using "rich" charachters 
-// that are characters with color and effect. 
-// The possible effects are  blinking, frame around the character and bold.
+// Cutrix: 4x4 representation of an Ethereum address using "rich" charachters. 
+// Rich characters are hex characters with additional color and effects. 
+// The possible effects are  blinking, frame around the character and boldness.
 //
-// This contract reates the Cutrix data, such as SVG and attributes
+// This contract creates the Cutrix data, such as SVG and attributes
 contract CutrixData is ICutrixData {
     using Strings for uint256;
 
@@ -31,7 +31,6 @@ contract CutrixData is ICutrixData {
         uint16 y_start = 183;
         uint16 y_gap = 218;
 
-
         // Extract the actualy character from each richChar
         for (uint256 i = 0; i < 16; i++) {
             bytes1 cutrixCharBytes1 = bytes1(richChar16[i].charColor & 0x0f);
@@ -43,8 +42,6 @@ contract CutrixData is ICutrixData {
         svg = abi.encodePacked(
             '<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" xmlns:v="https://vecta.io/nano"><path fill="#080808" d="M0 0h1000v1000H0z"/><path fill="none" stroke="#979da6" stroke-width="3" opacity=".48" d="M40 920h920"/><path fill="#cb4640" d="M726 944h24v24h-24z"/><path fill="#f9b529" d="M756 944h24v24h-24z"/><path fill="#d5c021" d="M786 944h24v24h-24z"/><path fill="#979da6" d="M816 944h24v24h-24z"/><path fill="#6a4f9a" d="M846 944h24v24h-24z"/><path fill="#2a36ac" d="M876 944h24v24h-24z"/><path fill="#be4570" d="M906 944h24v24h-24z"/><path fill="#489171" d="M936 944h24v24h-24z"/><path fill="#fff" d="M40 945h24v28H40z"/><text transform="translate(45 969)" fill="#080808" font-size="24" font-weight="700" font-family="Oswald">         C       </text><text fill="#fff" font-size="24" font-weight="200" letter-spacing="0.14em" font-family="Oswald"><tspan x="71" y="969">UT</tspan><tspan x="102" font-weight="700" y="969">RIX</tspan></text><defs ><style>@font-face{font-family:"Oswald";src:url(data:application/font-woff;charset=utf-8;base64,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) format("woff"); font-weight:200;font-style:normal;} @font-face{font-family:"Oswald";src:url(data:application/font-woff;charset=utf-8;base64,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) format("woff"); font-weight:bold;font-style:normal;}</style></defs>'
         );
-
-
 
         // Add the 16 rich characters to the matrix
         for (uint8 i = 0; i < 16; i++) {
@@ -70,6 +67,8 @@ contract CutrixData is ICutrixData {
     }
 
     // Generates a Cutrix attributes from a uint256 representation of an address
+    // Attributes generated: frame, bold, blinking and color rarity.
+    // See Cutrix Readme for more information.
     function CutrixAttributes(uint256 addrAsUint256) public pure returns(string memory){
         richChar[16] memory richChar16 = address16richChars(addrAsUint256);
 
@@ -78,9 +77,8 @@ contract CutrixData is ICutrixData {
         uint8 boldCounter = 0; 
         uint8 blinkingCounter = 0;
 
-        // color counter
+        // a counter for each of the possible 8 colors
         uint8[8] memory colorCounter = [0, 0, 0, 0, 0, 0, 0, 0];
-
 
         // count colors and effects
         for (uint8 i = 0; i < 16; i++) {
@@ -92,10 +90,10 @@ contract CutrixData is ICutrixData {
             bool bold = ( (richChar16[i].flags >> 1) & 1) != 0;
             bool blinking = ( (richChar16[i].flags >> 2) & 1) != 0;
 
-            // Add to color counter
+            // Add to colors counters
             colorCounter[color] = colorCounter[color] + 1;
 
-            // Add to effect counters
+            // Add to effects counters
             frameCounter = frame ? frameCounter + 1 : frameCounter;
             boldCounter = bold ? boldCounter + 1 : boldCounter;
             blinkingCounter = blinking ? blinkingCounter + 1 : blinkingCounter;
@@ -109,6 +107,7 @@ contract CutrixData is ICutrixData {
             }
         }
 
+        // build the JSON of each trait in the attributes
         bytes memory frameTrait = abi.encodePacked(
             '{',
                 '"trait_type": "Frame",', " ",
