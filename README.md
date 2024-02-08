@@ -53,7 +53,9 @@ There are five traints: color, blinking, frame, bold and total.
 
 Calculate how many characters are blinking, then use the Binomial Distribution Formula to calculate its rarity. The formula is: (16 x)* (1/2)^16.
 
-**Colors**. Check which color most characters share, let X be the amount they share it (it can be more than one color of course). Calculate the probability for this using the Binomial Distribution Formula: (16 X)* (1/16)^X * (15/16)^{1-x}.
+**Colors**. Check which color most characters share, let X be the amount they share it (it can be more than one color of course). Calculate the probability for this using the Binomial Distribution Formula: (16 X)* (1/16)^X * (15/16)^{16-x}.
+
+**Comment**. In order to have only integer rarities, if a rarity is a fractions it is being rounded to the closest integer. A half is being rounded to 1.
 
 ## Team
 - Neiman (coding)

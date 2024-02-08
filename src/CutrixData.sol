@@ -193,5 +193,23 @@ contract CutrixData is ICutrixData {
     function addressToUint256(address addr) public pure returns (uint256) {
         return uint256(uint160(addr));
     }
+
+    // Returns the rarity of an effect occurring exactly a specific number of times
+    function effectRarity(uint8 amount) internal pure returns (uint256) {
+        // Rarity values calculated using the Binomial Distribution Formula
+        uint24[17] memory rarityArray = [65536, 4096, 546, 117, 36, 15, 8, 6, 5, 6, 8, 15, 36, 117, 546, 4096, 65536];
+
+        return rarityArray[amount];
+
+    }
+
+    // Returns the rarity of a specific color occurring exactly a specific number of times
+    function colorRarity(uint8 amount) internal pure returns (uint256) {
+        // Rarity values calculated using the Binomial Distribution Formula
+        // The first two rarities are '0' since the max occuring of a color can't be less than 2
+        uint56[17] memory rarityArray = [0, 0, 3, 5, 11, 33, 124, 610, 3794, 29876, 298763, 3834131, 64413403, 1465404918, 47869893998, 2513169434917, 281474976710656];
+
+        return rarityArray[amount];
+    }
    
 }
