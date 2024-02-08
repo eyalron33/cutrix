@@ -31,12 +31,13 @@ contract Cutrix is ERC721URIStorage, Ownable {
         _mint(tokenIDAddress, tokenID);
     }
 
-    function tokenURI(uint256 tokenId) public view override returns (string memory){
+    function tokenURI(uint256 tokenID) public view override returns (string memory){
         bytes memory dataURI = abi.encodePacked(
             '{',
-                '"name": "Cutrix #', Strings.toString(tokenId), '",',
+                '"name": "Cutrix #', Strings.toString(tokenID), '",',
                 '"description": "A moderately handsome wallet address",',
-                '"image": "', cutrixData.CutrixSVG(tokenId), '"',
+                '"image": "', cutrixData.CutrixSVG(tokenID), '",',
+                '"attributes": [', cutrixData.CutrixAttributes(tokenID), ']',
             '}'
         );
         return string(

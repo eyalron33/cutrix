@@ -71,7 +71,79 @@ contract CutrixData is ICutrixData {
 
     // Generates a Cutrix attributes from a uint256 representation of an address
     function CutrixAttributes(uint256 addrAsUint256) public pure returns(string memory){
-        return Strings.toString(addrAsUint256);
+        richChar[16] memory richChar16 = address16richChars(addrAsUint256);
+
+        // effect counters
+        uint8 frameCounter = 0; 
+        uint8 boldCounter = 0; 
+        uint8 blinkingCounter = 0;
+
+        // color counter
+        uint8[8] memory colorCounter = [0, 0, 0, 0, 0, 0, 0, 0];
+
+
+        // count colors and effects
+        for (uint8 i = 0; i < 16; i++) {
+            // Extract color
+            uint8 color = richChar16[i].charColor >> 4;
+
+            // Extract effects
+            bool frame = (richChar16[i].flags & 1) != 0;
+            bool bold = ( (richChar16[i].flags >> 1) & 1) != 0;
+            bool blinking = ( (richChar16[i].flags >> 2) & 1) != 0;
+
+            // Add to color counter
+            colorCounter[color] = colorCounter[color] + 1;
+
+            // Add to effect counters
+            frameCounter = frame ? frameCounter + 1 : frameCounter;
+            boldCounter = bold ? boldCounter + 1 : boldCounter;
+            blinkingCounter = blinking ? blinkingCounter + 1 : blinkingCounter;
+        }
+
+        // find maximum color
+        uint8 maxColorCount = colorCounter[0];
+        for (uint8 i = 1; i < 8; i++) {
+            if (colorCounter[i] > maxColorCount) {
+                maxColorCount = colorCounter[i];
+            }
+        }
+
+        bytes memory frameTrait = abi.encodePacked(
+            '{',
+                '"trait_type": "Frame",', " ",
+                '"max_value": 65536,', " ",
+                '"value": ', Strings.toString(effectRarity(frameCounter)),
+            '},'
+        );
+
+        bytes memory boldTrait = abi.encodePacked(
+            '{',
+                '"trait_type": "Bold",', " ",
+                '"max_value": 65536,', " ",
+                '"value": ', Strings.toString(effectRarity(boldCounter)),
+            '},'
+        );
+
+        bytes memory blinkingTrait = abi.encodePacked(
+            '{',
+                '"trait_type": "Blinking",', " ",
+                '"max_value": 65536,', " ",
+                '"value": ', Strings.toString(effectRarity(blinkingCounter)),
+            '},'
+        );
+
+        bytes memory colorTrait = abi.encodePacked(
+            '{',
+                '"trait_type": "Color",', " ",
+                '"max_value": 281474976710656,', " ",
+                '"value": ', Strings.toString(colorRarity(blinkingCounter)),
+            '}'
+        );
+
+        return string( 
+            abi.encodePacked(frameTrait, boldTrait, blinkingTrait, colorTrait)
+        );
     }
 
     // Casts an address (as a uint256) into a richChar struct
@@ -117,11 +189,11 @@ contract CutrixData is ICutrixData {
 
     // Generates an SVG of richChar placed in a given x-y coordinates
     function richCharSVG(uint16 xCoord, uint16 yCoord, richChar memory cutrixRichChar) public pure returns (string memory) {
-        // Extract the hex character from cutrixRichChar
+        // Extract hex character
         bytes1 hexCharBytes1 = bytes1(cutrixRichChar.charColor & 0x0f);
         string memory hexChar = string(abi.encodePacked(_nibbleToAscii(uint8(hexCharBytes1))));
 
-        // Extract the character color
+        // Extract color
         uint8 color = cutrixRichChar.charColor >> 4;
 
         // Extract effects
