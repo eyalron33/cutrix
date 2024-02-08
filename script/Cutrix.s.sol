@@ -2,6 +2,8 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
+import "../src/ICutrixData.sol";
+import "../src/CutrixData.sol";
 import "../src/Cutrix.sol";
 
 contract CutrixScript is Script {
@@ -9,7 +11,11 @@ contract CutrixScript is Script {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY_ANVIL");
         vm.startBroadcast(deployerPrivateKey);
 
-        new Cutrix();
+        ICutrixData cutrixData;
+
+        cutrixData = ICutrixData(new CutrixData()); 
+
+        new Cutrix(cutrixData);
 
         vm.stopBroadcast();
     }
