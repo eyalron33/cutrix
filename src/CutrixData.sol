@@ -209,7 +209,7 @@ contract CutrixData is ICutrixData {
 
         // Build and return the SVG of the richChar
         return string(abi.encodePacked(
-            rectSVT, '<text transform="translate(', Strings.toString(xCoord), ' ', Strings.toString(yCoord), ')" fill="white" font-size="92" font-weight=', getFontWeight(bold) ,'>', getBlinking(blinking), '<tspan x="-4">',string(abi.encodePacked(hexChar)), '</tspan> </text>'
+            rectSVT, '<text transform="translate(', Strings.toString(xCoord), ' ', Strings.toString(yCoord), ')" fill="white" font-family="Oswald" font-size="92" font-weight=', getFontWeight(bold) ,'>', getBlinking(blinking), '<tspan x="-4">',string(abi.encodePacked(hexChar)), '</tspan> </text>'
         ));
     }
 
@@ -225,14 +225,14 @@ contract CutrixData is ICutrixData {
         string[8] memory colors;
 
          // Initialize the array with colors
-        colors[0] = "#cb4640";
-        colors[1] = "#f9b529";
-        colors[2] = "#d5c021";
-        colors[3] = "#979da6";
-        colors[4] = "#6a4f9a";
-        colors[5] = "#2a36ac";
-        colors[6] = "#be4570";
-        colors[7] = "#489171";
+        colors[0] = '#4E8E6C'; // Green
+        colors[1] = '#C9AC55'; // Gold
+        colors[2] = '#979da6'; // Silver
+        colors[3] = '#5879C7'; // Blue
+        colors[4] = '#CE7A12'; // Orange
+        colors[5] = '#6A4D80'; // Purple
+        colors[6] = '#CC4D48'; // Red
+        colors[7] = '#7E980B'; // Lime
 
         return colors[color];
     }
