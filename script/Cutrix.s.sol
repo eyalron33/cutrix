@@ -8,7 +8,7 @@ import "../src/Cutrix.sol";
 
 contract CutrixScript is Script {
     function run() external {
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY_ANVIL");
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
 
         ICutrixData cutrixData;
