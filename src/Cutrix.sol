@@ -20,7 +20,9 @@ contract Cutrix is  ERC721URIStorage, ERC721Enumerable, Ownable {
         uint8 flags; // 1 bit underlink, 1 overline, 1 blnking, rest is garbage bits
     }
 
+    // mint price in Wei
     uint256 public mintPrice;
+
     ICutrixData internal cutrixData;
 
     constructor(ICutrixData cutrixDataContructor) ERC721("Cutrix", "CTRX") Ownable(msg.sender) {
