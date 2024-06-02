@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
@@ -11,7 +12,7 @@ import "./ICutrixData.sol";
 // Cutrix: 4x4 representation of an Ethereum address using "rich" charachters. 
 // Rich characters are hex characters with additional color and effects. 
 // The possible effects are  blinking, frame around the character and boldness.
-contract Cutrix is ERC721URIStorage, Ownable {
+contract Cutrix is  ERC721URIStorage, ERC721Enumerable, Ownable {
     using Strings for uint256;
 
     struct richChar {
@@ -34,7 +35,7 @@ contract Cutrix is ERC721URIStorage, Ownable {
         _mint(tokenIDAddress, tokenID);
     }
 
-    function tokenURI(uint256 tokenID) public view override returns (string memory){
+    function tokenURI(uint256 tokenID) public view override(ERC721, ERC721URIStorage) returns (string memory){
         bytes memory dataURI = abi.encodePacked(
             '{',
                 '"name": "Cutrix #', Strings.toString(tokenID), '",',
