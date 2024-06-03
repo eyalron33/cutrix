@@ -31,8 +31,8 @@ contract Cutrix is  ERC721URIStorage, ERC721Enumerable, Ownable {
 
     // The tokenID is actually the uint256 representation of an address.
     // Anyone can mint a token, but the ownership will go to the address that tokenID represents.
-    public function mint(uint256 tokenID) external {
-        require(msg.value >= mintPrice, "Cutrix: insufficient funds");
+    function mint(uint256 tokenID) external {
+        // require(msg.value >= mintPrice, "Cutrix: insufficient funds");
 
         uint160 Uint160Address = uint160(tokenID);
         address tokenIDAddress = address(Uint160Address);
@@ -61,7 +61,7 @@ contract Cutrix is  ERC721URIStorage, ERC721Enumerable, Ownable {
     }
 
     // Sets a new mint price for the tokens.
-    function setMintPrice(uint256 newMintPrice) onlyOwner() {
+    function setMintPrice(uint256 newMintPrice) public onlyOwner() {
         mintPrice = newMintPrice;
     }
 
