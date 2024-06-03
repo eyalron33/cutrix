@@ -45,17 +45,17 @@ forge script script/Cutrix.s.sol:CutrixScript --fork-url http://localhost:8545 -
 You will see in the output of the deploy command that two contracts were deployed. The first is `CutrixLibrary` and the second is `Cutrix` ERC721 contract.
 
 ## Traits
-Each Cutrix has traits determining its rarity. The traits are based on how many characters has the same color, or how many characters are blinking, bold or have a solid frame around them. 
+Each Cutrix has traits determining its rarity. The traits are based on how many characters have the same color, or how many characters are blinking, bold or have a solid frame around them. 
 
-There are five traints: color, blinking, frame, bold and total.
+There are five traits: color, blinking, frame, bold, and total.
 
-**Blinking, frame, bold traints**. We exaplin for blinking but the same methodoly is used for frame and bold properties.
+**Blinking, frame, bold traints**. We explain for blinking but the same methodology is used for frame and bold properties.
 
-Calculate how many characters are blinking, then use the Binomial Distribution Formula to calculate its rarity. The formula is: (16 x)* (1/2)^16.
+Calculate how many characters are blinking, then use the Binomial Distribution Formula to calculate its rarity. The formula is (16 x)* (1/2)^16.
 
-**Colors**. Check which color most characters share, let X be the amount they share it (it can be more than one color of course). Calculate the probability for this using the Binomial Distribution Formula: (16 X)* (1/16)^X * (15/16)^{16-x}.
+**Colors**. Check which color most characters share, let X be the amount they share (it can be more than one color of course). Calculate the probability for this using the Binomial Distribution Formula: (16 X)* (1/16)^X * (15/16)^{16-x}.
 
-**Comment**. In order to have only integer rarities, if a rarity is a fractions it is being rounded to the closest integer. A half is being rounded to 1.
+**Comment**. In order to have only integer rarities, if a rarity is a fraction it is rounded to the closest integer. A half is rounded to 1.
 
 ## Team
 - Neiman (coding)
