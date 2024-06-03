@@ -201,7 +201,7 @@ contract CutrixData is ICutrixData {
         bool blinking = ( (cutrixRichChar.flags >> 2) & 1) != 0;
 
         // Position of the frame
-        uint16 Xrect = xCoord - 83 + (frame ? 6 : 0);
+        uint16 Xrect = xCoord - 83  + (frame ? 6 : 0);
         uint16 Yrect = yCoord - 143 + (frame ? 6 : 0);
 
         // Build the SVG of the rectangle that contains the character
@@ -246,7 +246,7 @@ contract CutrixData is ICutrixData {
 
     // Generates an SVG code snippet with/without frame for a character
     function getFrame(bool frame) public pure returns (string memory) {
-        string memory frame_code = frame ? 'width="206" height="202" stroke="#fff" stroke-width="12px"' : 'width="194" height="190"';
+        string memory frame_code = frame ? 'width="206" height="190" stroke="#fff" stroke-width="12px"' : 'width="218" height="202"';
 
         return frame_code;
     }
