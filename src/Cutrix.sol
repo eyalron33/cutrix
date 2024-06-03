@@ -65,6 +65,10 @@ contract Cutrix is  ERC721URIStorage, ERC721Enumerable, Ownable {
         mintPrice = newMintPrice;
     }
 
+    function setCutrixData(ICutrixData newCutrixData) public onlyOwner() {
+        cutrixData = newCutrixData;
+    }
+
     function _increaseBalance(address account, uint128 value) internal override(ERC721, ERC721Enumerable) {
         super._increaseBalance(account, value);
     }
