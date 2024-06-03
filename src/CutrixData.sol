@@ -188,6 +188,7 @@ contract CutrixData is ICutrixData {
 
     // Generates an SVG of richChar placed in a given x-y coordinates
     function richCharSVG(uint16 xCoord, uint16 yCoord, richChar memory cutrixRichChar) public pure returns (string memory) {
+
         // Extract hex character
         bytes1 hexCharBytes1 = bytes1(cutrixRichChar.charColor & 0x0f);
         string memory hexChar = string(abi.encodePacked(_nibbleToAscii(uint8(hexCharBytes1))));
@@ -200,16 +201,25 @@ contract CutrixData is ICutrixData {
         bool bold = ( (cutrixRichChar.flags >> 1) & 1) != 0;
         bool blinking = ( (cutrixRichChar.flags >> 2) & 1) != 0;
 
+        // Const
+        uint16 stroke = 12;
+        uint16 rect_width = 206 + (frame ? 0 : stroke);
+        uint16 rect_height = 190 + (frame ? 0 : stroke);
+
         // Position of the frame
         uint16 Xrect = xCoord - 83  + (frame ? 6 : 0);
         uint16 Yrect = yCoord - 143 + (frame ? 6 : 0);
+
+        // Text coordiantes
+        uint16 xText = rect_width/2 + Xrect;
+        uint16 yText = rect_height/2 + Yrect + 6;
 
         // Build the SVG of the rectangle that contains the character
         bytes memory rectSVG = abi.encodePacked('<rect transform="translate(', Strings.toString(Xrect), ' ', Strings.toString(Yrect), ')" fill="', getColor(color) ,'" ', getFrame(frame)  ,'/>');
 
         // Build and return the SVG of the richChar
         return string(abi.encodePacked(
-            rectSVG, '<text transform="translate(', Strings.toString(xCoord), ' ', Strings.toString(yCoord), ')" fill="white" font-family="Oswald" font-size="92" font-weight=', getFontWeight(bold) ,'>', getBlinking(blinking), '<tspan x="-4">',string(abi.encodePacked(hexChar)), '</tspan> </text>'
+            rectSVG, '<text x="', Strings.toString(xText),'" y="', Strings.toString(yText) ,'" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Oswald" font-size="92" font-weight=', getFontWeight(bold) ,'>', getBlinking(blinking), ' ',string(abi.encodePacked(hexChar)), ' </text>'
         ));
     }
 
@@ -246,7 +256,17 @@ contract CutrixData is ICutrixData {
 
     // Generates an SVG code snippet with/without frame for a character
     function getFrame(bool frame) public pure returns (string memory) {
-        string memory frame_code = frame ? 'width="206" height="190" stroke="#fff" stroke-width="12px"' : 'width="218" height="202"';
+        uint16 rect_width = 218;
+        uint16 rect_height = 202;
+        uint16 stroke = 12;
+
+        string memory frame_code;
+
+        if (frame) {
+            frame_code = string.concat('width="',Strings.toString(rect_width-stroke),'" height="',Strings.toString(rect_height-stroke),'" stroke="#fff" stroke-width="',Strings.toString(stroke),'px"');
+        } else {
+            frame_code = string.concat('width="',Strings.toString(rect_width),'" height="',Strings.toString(rect_height),'"');
+        }
 
         return frame_code;
     }
